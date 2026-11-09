@@ -2,191 +2,516 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Master Umpan Mas - Open Source</title>
-    
-    <!-- Perbaikan Stabilitas: Menggunakan Tailwind CSS versi 3 Stable untuk mencegah overclose/crash di WebView Android lama -->
-    <script src="https://jsdelivr.net"></script>
-    
-    <!-- Perbaikan Efisiensi: Memuat ikon FontAwesome secara asinkron untuk menghemat beban RAM saat aplikasi startup -->
-    <link rel="stylesheet" href="https://cloudflare.com" media="print" onload="this.media='all'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#047857">
+    <title>UmpanKu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { -webkit-tap-highlight-color: transparent; }
+        button, input, select { touch-action: manipulation; }
+        .recipe-card { animation: fadeIn .2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800 antialiased select-none">
+<body class="min-h-screen bg-gray-100 font-sans text-gray-800 antialiased">
+<header class="sticky top-0 z-50 bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-md">
+    <div class="mx-auto flex max-w-2xl items-center justify-between px-4 py-4">
+        <h1 class="flex items-center gap-2 text-xl font-bold"><i class="fa-solid fa-fish"></i> Master Umpan Mas</h1>
+        <span class="rounded-full border border-emerald-500 bg-emerald-800 px-2 py-1 font-mono text-xs">v1.2.0</span>
+    </div>
+</header>
 
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-md mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold flex items-center gap-2">
-                <i class="fas fa-fish"></i> Master Umpan Mas
-            </h1>
-            <span class="text-xs bg-emerald-800 px-2 py-1 rounded-full border border-emerald-500 font-mono">v1.0.1-stable</span>
-        </div>
-    </header>
+<main class="mx-auto max-w-2xl px-4 pb-10 pt-4">
+    <div class="mb-6 flex gap-2 rounded-2xl bg-white p-2 shadow-sm" role="tablist" aria-label="Fitur aplikasi">
+        <button type="button" onclick="switchTab('resep')" id="btn-resep" role="tab" aria-controls="tab-resep" aria-selected="true"
+            class="w-1/2 rounded-xl bg-emerald-600 py-3 font-semibold text-white shadow-sm transition">
+            <i class="fa-solid fa-book-open mr-1"></i> Resep Racikan
+        </button>
+        <button type="button" onclick="switchTab('kalkulator')" id="btn-kalkulator" role="tab" aria-controls="tab-kalkulator" aria-selected="false"
+            class="w-1/2 rounded-xl py-3 font-semibold text-gray-500 transition hover:bg-gray-50">
+            <i class="fa-solid fa-calculator mr-1"></i> Hitung Essen
+        </button>
+    </div>
 
-    <!-- Main Container -->
-    <main class="max-w-md mx-auto p-4 pb-24">
-        
-        <!-- Tab Fitur -->
-        <div class="bg-white rounded-2xl p-2 shadow-sm flex gap-2 mb-6">
-            <button onclick="switchTab('resep')" id="btn-resep" class="w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 bg-emerald-600 text-white shadow-sm">
-                <i class="fas fa-book-open mr-1"></i> Resep Umpan
-            </button>
-            <button onclick="switchTab('kalkulator')" id="btn-kalkulator" class="w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 text-gray-500 hover:bg-gray-50">
-                <i class="fas fa-calculator mr-1"></i> Hitung Essen
-            </button>
-        </div>
-
-        <!-- ================= TAB 1: LIST RESEP ================= -->
-        <section id="tab-resep" class="space-y-4">
-            <h2 class="text-lg font-bold text-gray-700 mb-2 px-1">Rekomendasi Racikan Ampuh</h2>
-            
-            <!-- Card Umpan Putih -->
-            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-                <div class="flex justify-between items-start mb-3">
-                    <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">Umpan Putih Harian</span>
-                    <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 20 Menit</span>
-                </div>
-                <h3 class="text-lg font-bold text-gray-900 mb-2">Racikan Susu Dancow & Santan</h3>
-                <p class="text-sm text-gray-500 mb-4">Umpan dasar putih bertekstur lembut, sangat disukai ikan mas ukuran ramai di kolam harian.</p>
-                <div class="border-t border-gray-100 pt-3">
-                    <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Bahan-Bahan:</h4>
-                    <ul class="text-sm space-y-1.5 text-gray-700">
-                        <li><i class="fas fa-check-circle text-emerald-500 mr-2 text-xs"></i> 1 Bungkus Susu Dancow Putih</li>
-                        <li><i class="fas fa-check-circle text-emerald-500 mr-2 text-xs"></i> 1 Bungkus Santan Kara (Kecil)</li>
-                        <li><i class="fas fa-check-circle text-emerald-500 mr-2 text-xs"></i> 1 Kaleng Sarden (Buang Saus Tomatnya)</li>
-                        <li><i class="fas fa-check-circle text-emerald-500 mr-2 text-xs"></i> 1 Butir Telur Asin (Ambil Kuningnya)</li>
-                        <li><i class="fas fa-check-circle text-emerald-500 mr-2 text-xs"></i> Kinoy secukupnya (Pengeras Umpan)</li>
-                    </ul>
-                </div>
+    <!-- TAB RESEP -->
+    <section id="tab-resep" role="tabpanel" aria-labelledby="btn-resep" class="space-y-4">
+        <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+            <div class="mb-4">
+                <h2 class="text-lg font-bold text-gray-900">Cari Racikan Umpan</h2>
+                <p class="mt-1 text-sm text-gray-500">Pilih tujuan memancing dan jenis umpan. Resep yang sesuai akan tampil otomatis.</p>
             </div>
-
-            <!-- Card Umpan Galatama -->
-            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-                <div class="flex justify-between items-start mb-3">
-                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">Galatama Cendil</span>
-                    <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 15 Menit</span>
-                </div>
-                <h3 class="text-lg font-bold text-gray-900 mb-2">Aci / Cendil Aroma Amis Wangi</h3>
-                <p class="text-sm text-gray-500 mb-4">Umpan jenis aci (sagu) khusus untuk turnamen galatama menyasar ikan mas indukan/babon.</p>
-                <div class="border-t border-gray-100 pt-3">
-                    <h4 class="text-xs font-bold text-gray-400 uppercase mb-2">Bahan-Bahan:</h4>
-                    <ul class="text-sm space-y-1.5 text-gray-700">
-                        <li><i class="fas fa-check-circle text-purple-500 mr-2 text-xs"></i> 2 Sendok Makan Tepung Sagu/Tapioka</li>
-                        <li><i class="fas fa-check-circle text-purple-500 mr-2 text-xs"></i> 1 Gelas Air Bersih</li>
-                        <li><i class="fas fa-check-circle text-purple-500 mr-2 text-xs"></i> Essen Strawberry (Wangi) — 5 Tetes</li>
-                        <li><i class="fas fa-check-circle text-purple-500 mr-2 text-xs"></i> Essen Choya (Amis) — 3 Tetes</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= TAB 2: KALKULATOR ESSEN ================= -->
-        <section id="tab-kalkulator" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h2 class="text-lg font-bold text-gray-800 mb-2">Kalkulator Tetes Essen</h2>
-            <p class="text-xs text-gray-500 mb-5">Hitung takaran tetes essen secara presisi berdasarkan volume atau berat umpan dasar Anda.</p>
-            
-            <div class="space-y-4">
-                <!-- Input Berat Umpan -->
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Berat Umpan Dasar (Gram)</label>
-                    <input type="number" id="berat-umpan" value="100" min="1" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                </div>
-
-                <!-- Input Tingkat Aroma -->
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Kondisi Air / Cuaca</label>
-                    <select id="kondisi-air" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                        <option value="normal">Air Normal / Cerah (Standar)</option>
-                        <option value="keruh">Air Keruh / Cokelat (Amis Kuat)</option>
-                        <option value="dingin">Malam Hari / Hujan (Wangi Kuat)</option>
+                    <label for="jenis-pancing" class="mb-1 block text-sm font-semibold text-gray-700">Jenis Pemancingan</label>
+                    <select id="jenis-pancing" class="w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                        <option value="harian">Harian</option>
+                        <option value="lomba">Lomba</option>
+                        <option value="kilo">Kilo Gebrus</option>
+                        <option value="galatama">Galatama</option>
                     </select>
                 </div>
-
-                <!-- Tombol Hitung -->
-                <button onclick="hitungEssen()" class="w-full mt-2 bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition duration-200 shadow-sm cursor-pointer">
-                    <i class="fas fa-cogs mr-1"></i> Hitung Formula
-                </button>
-
-                <!-- Hasil Kalkulasi -->
-                <div id="hasil-kalkulator" class="hidden mt-6 bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
-                    <h3 class="text-sm font-bold text-emerald-800 uppercase tracking-wider mb-3"><i class="fas fa-flask mr-1"></i> Rekomendasi Takaran:</h3>
-                    <div class="grid grid-cols-2 gap-3 text-center">
-                        <div class="bg-white p-3 rounded-xl shadow-sm border border-emerald-100">
-                            <span class="block text-2xl font-black text-emerald-600" id="res-wangi">0</span>
-                            <span class="text-xs text-gray-500 font-medium">Tetes Essen Wangi</span>
-                        </div>
-                        <div class="bg-white p-3 rounded-xl shadow-sm border border-emerald-100">
-                            <span class="block text-2xl font-black text-amber-600" id="res-amis">0</span>
-                            <span class="text-xs text-gray-500 font-medium">Tetes Essen Amis</span>
-                        </div>
-                    </div>
-                    <p class="text-[11px] text-emerald-700 mt-3 text-center italic leading-relaxed">
-                        *Catatan: Masukkan essen saat umpan sudah dingin. Teteskan bertahap mulai dari dosis terendah.
-                    </p>
+                <div>
+                    <label for="jenis-umpan" class="mb-1 block text-sm font-semibold text-gray-700">Jenis Umpan</label>
+                    <select id="jenis-umpan" class="w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                        <option value="putih">Umpan Putih</option>
+                        <option value="coklat">Umpan Coklat</option>
+                        <option value="pelet">Media Pelet</option>
+                    </select>
                 </div>
             </div>
-        </section>
+            <div class="mt-4 flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-xs text-emerald-800">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span id="ringkasan-pilihan">Harian • Umpan Putih</span>
+                <span class="ml-auto font-semibold">Resep otomatis</span>
+            </div>
+        </div>
 
-    </main>
+        <div id="hasil-resep" aria-live="polite"></div>
+        <p class="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-relaxed text-amber-800">
+            <i class="fa-solid fa-circle-info mr-1"></i>
+            Racikan di bawah adalah formula dasar untuk percobaan, bukan jaminan hasil. Kondisi air, cuaca, kebiasaan ikan, dan aturan kolam bisa memengaruhi hasil. Gunakan essen sedikit demi sedikit dan ikuti aturan pengelola kolam.
+        </p>
+    </section>
 
-    <!-- Footer -->
-    <footer class="max-w-md mx-auto text-center text-xs text-gray-400 py-6 border-t border-gray-200 px-4">
-        <p>Aplikasi ini bersifat <strong>Open Source (MIT License)</strong>.</p>
-        <p class="mt-1">Dibuat untuk komunitas pemancing ikan mas Indonesia.</p>
-    </footer>
+    <!-- TAB KALKULATOR -->
+    <section id="tab-kalkulator" role="tabpanel" aria-labelledby="btn-kalkulator" class="hidden rounded-2xl border border-gray-100 bg-white p-6 shadow-sm" hidden>
+        <h2 class="mb-2 text-lg font-bold text-gray-800">Kalkulator Tetes Essen</h2>
+        <p class="mb-5 text-xs text-gray-500">Perkiraan takaran awal berdasarkan berat umpan dan kondisi air/cuaca.</p>
+        <div class="space-y-4">
+            <div>
+                <label for="berat-umpan" class="mb-1 block text-sm font-semibold text-gray-700">Berat Umpan Dasar (Gram)</label>
+                <input type="number" id="berat-umpan" value="100" min="1" max="100000" step="1" inputmode="decimal"
+                    class="w-full rounded-xl border border-gray-300 px-4 py-2.5 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+            </div>
+            <div>
+                <label for="kondisi-air" class="mb-1 block text-sm font-semibold text-gray-700">Kondisi Air / Cuaca</label>
+                <select id="kondisi-air" class="w-full rounded-xl border border-gray-300 px-4 py-2.5 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200">
+                    <option value="normal">Air normal / cerah (standar)</option>
+                    <option value="keruh">Air keruh / cokelat (amis lebih dominan)</option>
+                    <option value="dingin">Malam hari / hujan (wangi lebih dominan)</option>
+                </select>
+            </div>
+            <button type="button" onclick="hitungEssen()" class="w-full rounded-xl bg-emerald-600 py-3 font-bold text-white shadow-sm transition hover:bg-emerald-700">
+                <i class="fa-solid fa-gears mr-1"></i> Hitung Formula
+            </button>
+            <div id="pesan-error" class="hidden rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700" role="alert"></div>
+            <div id="hasil-kalkulator" class="mt-6 hidden rounded-2xl border border-emerald-100 bg-emerald-50 p-4" aria-live="polite">
+                <h3 class="mb-3 text-sm font-bold uppercase tracking-wider text-emerald-800"><i class="fa-solid fa-flask mr-1"></i> Rekomendasi Takaran</h3>
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="rounded-xl border border-emerald-100 bg-white p-3 shadow-sm"><span class="block text-2xl font-black text-emerald-600" id="res-wangi">0</span><span class="text-xs font-medium text-gray-500">Tetes Essen Wangi</span></div>
+                    <div class="rounded-xl border border-emerald-100 bg-white p-3 shadow-sm"><span class="block text-2xl font-black text-amber-600" id="res-amis">0</span><span class="text-xs font-medium text-gray-500">Tetes Essen Amis</span></div>
+                </div>
+                <p class="mt-3 text-center text-[11px] italic leading-relaxed text-emerald-700">Masukkan essen saat umpan sudah dingin. Mulai dari dosis rendah dan sesuaikan berdasarkan respons ikan.</p>
+            </div>
+        </div>
+    </section>
+</main>
 
-    <!-- Logic JavaScript Perbaikan -->
-    <script>
-        // Menggunakan penanganan variabel lokal dalam fungsi untuk mencegah kebocoran memori (Memory Leak)
-        function switchTab(tabName) {
-            const tabResep = document.getElementById('tab-resep');
-            const tabKalkulator = document.getElementById('tab-kalkulator');
-            const btnResep = document.getElementById('btn-resep');
-            const btnKalkulator = document.getElementById('btn-kalkulator');
+<footer class="mx-auto max-w-2xl border-t border-gray-200 px-4 py-6 text-center text-xs text-gray-400">
+    <p>Aplikasi ini bersifat <strong>Open Source (MIT License)</strong>.</p>
+    <p class="mt-1">Aplikasi ini hanya sebagai saran</p>
+    <p class="mt-1">Dibuat oleh oski</p>
+</footer>
 
-            if (!tabResep || !tabKalkulator || !btnResep || !btnKalkulator) return;
+<script>
+'use strict';
 
-            if (tabName === 'resep') {
-                tabResep.classList.remove('hidden');
-                tabKalkulator.classList.add('hidden');
-                
-btnResep.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 bg-emerald-600 text-white shadow-sm";
-btnKalkulator.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 text-gray-500 hover:bg-gray-50";
-} else {
-tabResep.classList.add('hidden');
-tabKalkulator.classList.remove('hidden');
-btnResep.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 text-gray-500 hover:bg-gray-50";
-btnKalkulator.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 bg-emerald-600 text-white shadow-sm";
+const namaJenis = {
+    harian: 'Harian',
+    lomba: 'Lomba',
+    kilo: 'Kilo Gebrus',
+    galatama: 'Galatama'
+};
+
+const namaUmpan = {
+    putih: 'Umpan Putih',
+    coklat: 'Umpan Coklat',
+    pelet: 'Media Pelet'
+};
+
+/*
+ * Data resep dipisahkan berdasarkan 4 jenis pemancingan x 3 jenis umpan.
+ * Takaran adalah formula awal untuk uji coba dan dapat disesuaikan.
+ */
+const resep = {
+    harian: {
+        putih: {
+            judul: 'Umpan Putih Susu & Telur',
+            deskripsi: 'Adonan lembut dengan aroma gurih untuk percobaan mancing harian.',
+            bahan: ['1 bungkus kecil pelet putih atau biskuit bayi tawar, haluskan', '1 kuning telur asin', '2 sendok makan santan', 'Air hangat secukupnya', 'Kroto secukupnya (opsional)'],
+            cara: ['Campur bahan kering dan kuning telur hingga rata.', 'Tambahkan santan sedikit demi sedikit.', 'Aduk sampai kalis dan bentuk sesuai kebutuhan.', 'Kukus sebentar bila adonan masih terlalu lembek, lalu dinginkan.'],
+            catatan: 'Atur air sedikit demi sedikit agar tekstur tidak terlalu lembek.'
+        },
+        coklat: {
+            judul: 'Umpan Coklat Kacang & Roti',
+            deskripsi: 'Racikan sederhana dengan aroma kacang dan roti.',
+            bahan: ['2 lembar roti tawar, buang pinggirannya', '2 sendok makan kacang sangrai halus', '1 sendok makan susu bubuk coklat', 'Air hangat secukupnya', 'Sedikit pengeras umpan bila diperlukan'],
+            cara: ['Remas roti hingga halus.', 'Masukkan kacang dan susu bubuk, aduk rata.', 'Percikkan air hangat sampai adonan menyatu.', 'Uleni dan sesuaikan kekenyalannya.'],
+            catatan: 'Jangan terlalu banyak air; tambahkan sedikit demi sedikit.'
+        },
+        pelet: {
+            judul: 'Media Pelet Harian Gurih',
+            deskripsi: 'Media pelet praktis untuk dasar umpan harian.',
+            bahan: ['100 gram pelet ikan mas ukuran kecil', 'Air kolam atau air bersih secukupnya', '1 sendok makan pelet halus sebagai perekat', 'Sedikit kroto (opsional)'],
+            cara: ['Rendam pelet sebentar sampai mulai lunak.', 'Tiriskan kelebihan air.', 'Campurkan pelet halus dan aduk sampai menyatu.', 'Tambahkan kroto bila cocok dengan kondisi kolam.'],
+            catatan: 'Gunakan air sedikit demi sedikit agar pelet tidak hancur menjadi bubur.'
+        }
+    },
+    lomba: {
+        putih: {
+            judul: 'Umpan Putih Susu Kukus',
+            deskripsi: 'Adonan putih bertekstur kenyal yang mudah dibentuk saat perlombaan.',
+            bahan: ['1 bungkus kecil pelet putih halus', '1 kuning telur asin', '2 sendok makan santan', '1 sendok makan susu bubuk', 'Air secukupnya'],
+            cara: ['Aduk seluruh bahan kering.', 'Masukkan kuning telur dan santan.', 'Tambahkan air sedikit demi sedikit hingga kalis.', 'Bungkus dan kukus singkat, lalu dinginkan sebelum digunakan.'],
+            catatan: 'Cek aturan lomba terlebih dahulu, terutama penggunaan bahan tambahan.'
+        },
+        coklat: {
+            judul: 'Umpan Coklat Aroma Roti',
+            deskripsi: 'Racikan coklat dengan tekstur padat agar mudah dipasang.',
+            bahan: ['2 lembar roti tawar', '1 sendok makan susu bubuk coklat', '1 sendok makan tepung roti', '1 kuning telur', 'Air secukupnya'],
+            cara: ['Haluskan roti tawar.', 'Campur susu coklat dan tepung roti.', 'Masukkan kuning telur lalu uleni.', 'Atur kelembapan dengan air sedikit demi sedikit.'],
+            catatan: 'Buat adonan secukupnya dan jaga tekstur tetap konsisten selama lomba.'
+        },
+        pelet: {
+            judul: 'Media Pelet Lomba',
+            deskripsi: 'Pelet yang dipadatkan dengan perekat sederhana.',
+            bahan: ['100 gram pelet ikan mas', '1 sendok makan pelet halus', 'Air hangat secukupnya', 'Kroto sedikit (opsional, jika diizinkan)'],
+            cara: ['Rendam pelet sampai lunak, jangan sampai terlalu hancur.', 'Tiriskan lalu campurkan pelet halus.', 'Uleni hingga dapat dipadatkan.', 'Bentuk sesuai ukuran mata kail dan aturan lomba.'],
+            catatan: 'Pastikan ukuran dan bahan umpan sesuai ketentuan panitia.'
+        }
+    },
+    kilo: {
+        putih: {
+            judul: 'Umpan Putih Padat Kilo Gebrus',
+            deskripsi: 'Adonan putih yang lebih padat agar tidak cepat lepas saat dilempar.',
+            bahan: ['100 gram pelet putih halus', '1 kuning telur asin', '1 sendok makan santan', '1 sendok makan tepung tapioka', 'Air hangat secukupnya'],
+            cara: ['Campur pelet putih dan tapioka.', 'Tambahkan kuning telur dan santan.', 'Tuang air hangat sedikit demi sedikit sambil diuleni.', 'Kukus singkat bila perlu, lalu dinginkan dan bentuk.'],
+            catatan: 'Uji kepadatan dengan cara diremas; jangan sampai terlalu keras.'
+        },
+        coklat: {
+            judul: 'Umpan Coklat Padat Kilo Gebrus',
+            deskripsi: 'Racikan berbahan roti dan tepung untuk tekstur yang lebih tahan.',
+            bahan: ['2 lembar roti tawar halus', '2 sendok makan tepung roti', '1 sendok makan susu bubuk coklat', '1 sendok makan tapioka', 'Air secukupnya'],
+            cara: ['Campur semua bahan kering.', 'Masukkan roti yang telah dihaluskan.', 'Tambahkan air sedikit demi sedikit.', 'Uleni sampai padat dan tidak mudah pecah.'],
+            catatan: 'Jika terlalu keras, lembapkan dengan sedikit air; jika lembek, tambah tepung roti.'
+        },
+        pelet: {
+            judul: 'Media Pelet Padat Gebrus',
+            deskripsi: 'Pelet dengan daya rekat lebih kuat untuk menyesuaikan teknik gebrus.',
+            bahan: ['150 gram pelet ikan mas', '1–2 sendok makan pelet halus', '1 sendok teh tapioka (opsional)', 'Air hangat secukupnya'],
+            cara: ['Rendam pelet sampai lunak lalu tiriskan.', 'Masukkan pelet halus dan tapioka bila diperlukan.', 'Uleni sampai dapat dikepal tanpa buyar.', 'Bentuk sesuai teknik dan ukuran yang digunakan.'],
+            catatan: 'Jangan terlalu banyak perekat agar umpan tidak menjadi terlalu liat.'
+        }
+    },
+    galatama: {
+        putih: {
+            judul: 'Cendil Putih Sagu',
+            deskripsi: 'Adonan aci/cendil sederhana dengan tekstur kenyal.',
+            bahan: ['2 sendok makan tepung sagu atau tapioka', '100 ml air', '1 sendok makan pelet putih halus', 'Essen wangi 1 tetes (opsional)'],
+            cara: ['Larutkan tepung dengan air hingga tidak bergerindil.', 'Masak dengan api kecil sambil diaduk sampai bening dan kenyal.', 'Dinginkan, lalu campur pelet halus.', 'Tambahkan essen sangat sedikit bila diperlukan.'],
+            catatan: 'Mulai tanpa essen dahulu; aroma berlebihan belum tentu disukai ikan.'
+        },
+        coklat: {
+            judul: 'Cendil Coklat Aroma Gurih',
+            deskripsi: 'Cendil dengan campuran pelet halus dan sedikit aroma coklat.',
+            bahan: ['2 sendok makan tepung tapioka', '100 ml air', '1 sendok makan pelet coklat/pelet halus', 'Sedikit susu bubuk coklat (opsional)'],
+            cara: ['Larutkan tapioka dengan air.', 'Masak sambil diaduk hingga bening dan kenyal.', 'Dinginkan sampai hangat.', 'Uleni bersama pelet halus dan susu bubuk.'],
+            catatan: 'Gunakan aroma tipis dan sesuaikan dengan karakter air kolam.'
+        },
+        pelet: {
+            judul: 'Media Pelet Galatama',
+            deskripsi: 'Media pelet halus yang dibentuk kecil dan mudah dipasang.',
+            bahan: ['100 gram pelet ikan mas', '2 sendok makan pelet halus', 'Air hangat secukupnya', 'Essen amis atau wangi 1 tetes (opsional)'],
+            cara: ['Lembutkan pelet dengan air hangat.', 'Tiriskan dan campur pelet halus.', 'Uleni sampai kalis dan dapat dibentuk.', 'Bila perlu, tambahkan satu tetes essen, aduk rata, lalu uji sedikit.'],
+            catatan: 'Takaran essen pada resep ini hanya titik awal; cek aturan galatama setempat.'
+        }
+    }
+};
+
+
+// Racikan tambahan dari bahan/resep yang diberikan pengguna.
+// Setiap racikan ditampilkan sesuai pilihan kategori pemancingan dan jenis umpan.
+const resepTambahan = [
+    {
+        id: 'putih-sederhana',
+        jenis: ['harian', 'kilo'],
+        umpan: 'putih',
+        label: 'Tambahan • Harian / Kilo Gebrus',
+        judul: 'Racikan Umpan Putih Sederhana Ikin & Atang',
+        deskripsi: 'Racikan umpan putih dengan campuran Ikin, Atang, santan, Jitu Super Nila, dan ikan tuna/deho.',
+        bahan: [
+            '1 bungkus umpan Ikin',
+            '1 bungkus umpan Atang',
+            '1 bungkus santan instan',
+            '1 bungkus Jitu Super Nila',
+            '1 kaleng kecil ikan tuna / Deho / Sunbell',
+            'Kroto secukupnya',
+            '5 tetes essen (opsional, misalnya aroma leci atau salmon)'
+        ],
+        cara: [
+            'Haluskan ikan tuna, Deho, atau Sunbell terlebih dahulu.',
+            'Campurkan santan instan, Jitu Super Nila, dan ikan yang sudah dihaluskan.',
+            'Masukkan umpan Ikin dan Atang, lalu aduk sampai rata.',
+            'Tambahkan air panas sedikit demi sedikit sampai tekstur sesuai.',
+            'Masukkan kroto. Tambahkan essen bila diperlukan, sedikit demi sedikit.'
+        ],
+        catatan: 'Essen bersifat opsional. Mulai dengan takaran lebih rendah dan sesuaikan dengan kondisi kolam.'
+    },
+    {
+        id: 'juara-lomba',
+        jenis: ['lomba'],
+        umpan: 'pelet',
+        label: 'Tambahan • Lomba',
+        judul: 'Racikan Umpan Juara / Lomba Amis Wangi',
+        deskripsi: 'Campuran pelet, ikan tongkol atau pindang, crackers keju, dan kroto sebagai cocolan.',
+        bahan: [
+            '200–300 gram pelet ikan',
+            '2–3 iris ikan tongkol atau pindang',
+            '2–3 keping biskuit crackers keju, haluskan',
+            '½ ons kroto'
+        ],
+        cara: [
+            'Rendam ikan tongkol atau pindang dengan air panas selama sekitar 10 menit.',
+            'Haluskan ikan setelah direndam.',
+            'Campurkan pelet, ikan yang sudah dihaluskan, dan crackers keju.',
+            'Seduh dengan air panas secukupnya, lalu aduk hingga rata.',
+            'Gunakan kroto sebagai cocolan saat umpan dipasang pada kail.'
+        ],
+        catatan: 'Pastikan penggunaan bahan dan teknik cocolan diperbolehkan oleh aturan lomba di kolam.'
+    },
+    {
+        id: 'putih-kukus',
+        jenis: ['harian', 'lomba', 'kilo'],
+        umpan: 'putih',
+        label: 'Tambahan • Umpan Kukus',
+        judul: 'Racikan Umpan Kukus Spesial',
+        deskripsi: 'Adonan putih berbahan telur, santan, susu, perangsang, pandan, dan kroto.',
+        bahan: [
+            '1 butir telur ayam atau bebek',
+            '3 sendok makan santan instan (Kara)',
+            '1 sendok makan perangsang ikan / Pikin Wangi',
+            '3 sendok makan susu Dancow',
+            'Kroto secukupnya',
+            '1 lembar daun pandan'
+        ],
+        cara: [
+            'Campurkan telur, santan, susu Dancow, dan perangsang hingga merata.',
+            'Tuangkan adonan ke wadah tahan panas.',
+            'Masukkan daun pandan ke dalam wadah atau letakkan bersama adonan.',
+            'Kukus selama 10–15 menit hingga matang.',
+            'Dinginkan, kemudian campurkan kroto yang sudah dibersihkan.'
+        ],
+        catatan: 'Pastikan adonan sudah dingin sebelum dicampur kroto agar teksturnya tetap terjaga.'
+    },
+    {
+        id: 'putih-dadakan',
+        jenis: ['harian', 'kilo'],
+        umpan: 'putih',
+        label: 'Tambahan • Racikan Dadakan',
+        judul: 'Umpan Putih Dadakan Simple',
+        deskripsi: 'Racikan praktis dari Bondon, perangsang target merah, kuning telur asin, Deho/Sunbell, dan bahan pelengkap.',
+        bahan: [
+            '1 bungkus Bondon',
+            '½ bungkus perangsang Target Merah',
+            'Kuning telur asin',
+            'Deho / Sunbell secukupnya (sesuai kebutuhan, sekitar Rp5.000–Rp10.000)',
+            'Kinoy secukupnya',
+            'Kroto (opsional)',
+            'Essen (opsional)'
+        ],
+        cara: [
+            'Haluskan kuning telur asin bersama Deho atau Sunbell.',
+            'Masukkan Bondon dan perangsang Target Merah, lalu aduk rata.',
+            'Tambahkan Kinoy sedikit demi sedikit sampai tekstur sesuai.',
+            'Tambahkan kroto dan essen bila diperlukan, kemudian aduk perlahan.'
+        ],
+        catatan: 'Takaran Bondon dan Kinoy dapat disesuaikan dengan tekstur yang diinginkan. Essen tidak wajib.'
+    }
+];
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, function (char) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[char];
+    });
 }
+
+function tampilkanResep() {
+    const jenisPancing = document.getElementById('jenis-pancing').value;
+    const jenisUmpan = document.getElementById('jenis-umpan').value;
+    const data = resep[jenisPancing] && resep[jenisPancing][jenisUmpan];
+    const hasil = document.getElementById('hasil-resep');
+    const ringkasan = document.getElementById('ringkasan-pilihan');
+
+    ringkasan.textContent = namaJenis[jenisPancing] + ' • ' + namaUmpan[jenisUmpan];
+
+    if (!data) {
+        hasil.innerHTML = '<div class="rounded-xl bg-red-50 p-4 text-sm text-red-700">Resep belum tersedia.</div>';
+        return;
+    }
+
+    const bahanHTML = data.bahan.map(item =>
+        '<li class="flex gap-2"><i class="fa-solid fa-circle-check mt-1 text-emerald-500"></i><span>' + escapeHTML(item) + '</span></li>'
+    ).join('');
+
+    const caraHTML = data.cara.map((item, index) =>
+        '<li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700">' +
+        (index + 1) + '</span><span class="pt-0.5">' + escapeHTML(item) + '</span></li>'
+    ).join('');
+
+    hasil.innerHTML = `
+        <article class="recipe-card overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 p-5 text-white">
+                <div class="mb-2 flex flex-wrap gap-2 text-xs font-semibold">
+                    <span class="rounded-full bg-white/20 px-3 py-1">${escapeHTML(namaJenis[jenisPancing])}</span>
+                    <span class="rounded-full bg-white/20 px-3 py-1">${escapeHTML(namaUmpan[jenisUmpan])}</span>
+                </div>
+                <h3 class="text-xl font-bold">${escapeHTML(data.judul)}</h3>
+                <p class="mt-2 text-sm text-emerald-50">${escapeHTML(data.deskripsi)}</p>
+            </div>
+            <div class="space-y-5 p-5">
+                <section>
+                    <h4 class="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-gray-500">
+                        <i class="fa-solid fa-basket-shopping text-emerald-600"></i> Bahan-bahan
+                    </h4>
+                    <ul class="space-y-2.5 text-sm leading-relaxed text-gray-700">${bahanHTML}</ul>
+                </section>
+                <section class="border-t border-gray-100 pt-4">
+                    <h4 class="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-gray-500">
+                        <i class="fa-solid fa-list-ol text-emerald-600"></i> Cara membuat
+                    </h4>
+                    <ol class="space-y-3 text-sm leading-relaxed text-gray-700">${caraHTML}</ol>
+                </section>
+                <div class="rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-relaxed text-amber-800">
+                    <i class="fa-solid fa-lightbulb mr-1"></i><strong>Tips:</strong> ${escapeHTML(data.catatan)}
+                </div>
+            </div>
+        </article>`;
+
+    const tambahanCocok = resepTambahan.filter(function (item) {
+        return item.jenis.includes(jenisPancing) && item.umpan === jenisUmpan;
+    });
+
+    if (tambahanCocok.length) {
+        const tambahanHTML = tambahanCocok.map(function (item) {
+            const bahanTambahan = item.bahan.map(function (bahan) {
+                return '<li class="flex gap-2"><i class="fa-solid fa-circle-check mt-1 text-emerald-500"></i><span>' + escapeHTML(bahan) + '</span></li>';
+            }).join('');
+
+            const caraTambahan = item.cara.map(function (langkah, index) {
+                return '<li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700">' +
+                    (index + 1) + '</span><span class="pt-0.5">' + escapeHTML(langkah) + '</span></li>';
+            }).join('');
+
+            return `
+                <article class="recipe-card overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+                    <div class="border-b border-emerald-100 bg-emerald-50 p-5">
+                        <span class="mb-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">${escapeHTML(item.label)}</span>
+                        <h3 class="text-lg font-bold text-gray-900">${escapeHTML(item.judul)}</h3>
+                        <p class="mt-2 text-sm text-gray-600">${escapeHTML(item.deskripsi)}</p>
+                    </div>
+                    <div class="space-y-5 p-5">
+                        <section>
+                            <h4 class="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-gray-500">
+                                <i class="fa-solid fa-basket-shopping text-emerald-600"></i> Bahan-bahan
+                            </h4>
+                            <ul class="space-y-2.5 text-sm leading-relaxed text-gray-700">${bahanTambahan}</ul>
+                        </section>
+                        <section class="border-t border-gray-100 pt-4">
+                            <h4 class="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-gray-500">
+                                <i class="fa-solid fa-list-ol text-emerald-600"></i> Cara membuat
+                            </h4>
+                            <ol class="space-y-3 text-sm leading-relaxed text-gray-700">${caraTambahan}</ol>
+                        </section>
+                        <div class="rounded-xl border border-amber-100 bg-amber-50 p-3 text-xs leading-relaxed text-amber-800">
+                            <i class="fa-solid fa-lightbulb mr-1"></i><strong>Tips:</strong> ${escapeHTML(item.catatan)}
+                        </div>
+                    </div>
+                </article>`;
+        }).join('');
+
+        hasil.insertAdjacentHTML('beforeend',
+            '<div class="mb-3 mt-5 flex items-center gap-2 px-1"><i class="fa-solid fa-bookmark text-emerald-600"></i><h3 class="font-bold text-gray-700">Resep Tambahan</h3></div>' +
+            tambahanHTML
+        );
+    }
 }
+
+function switchTab(tabName) {
+    const showResep = tabName !== 'kalkulator';
+    const tabResep = document.getElementById('tab-resep');
+    const tabKalkulator = document.getElementById('tab-kalkulator');
+    const btnResep = document.getElementById('btn-resep');
+    const btnKalkulator = document.getElementById('btn-kalkulator');
+
+    tabResep.classList.toggle('hidden', !showResep);
+    tabKalkulator.classList.toggle('hidden', showResep);
+    tabKalkulator.hidden = showResep;
+
+    btnResep.classList.toggle('bg-emerald-600', showResep);
+    btnResep.classList.toggle('text-white', showResep);
+    btnResep.classList.toggle('shadow-sm', showResep);
+    btnResep.classList.toggle('text-gray-500', !showResep);
+    btnResep.classList.toggle('hover:bg-gray-50', !showResep);
+    btnResep.setAttribute('aria-selected', String(showResep));
+
+    btnKalkulator.classList.toggle('bg-emerald-600', !showResep);
+    btnKalkulator.classList.toggle('text-white', !showResep);
+    btnKalkulator.classList.toggle('shadow-sm', !showResep);
+    btnKalkulator.classList.toggle('text-gray-500', showResep);
+    btnKalkulator.classList.toggle('hover:bg-gray-50', showResep);
+    btnKalkulator.setAttribute('aria-selected', String(!showResep));
+}
+
 function hitungEssen() {
-const beratInput = document.getElementById('berat-umpan');
-const kondisiInput = document.getElementById('kondisi-air');
-if (!beratInput || !kondisiInput) return;
-const berat = parseFloat(beratInput.value);
-const kondisi = kondisiInput.value;
-if (isNaN(berat) || berat <= 0) {
-alert('Silakan masukkan berat umpan dasar yang valid!');
-return;
+    const beratInput = document.getElementById('berat-umpan');
+    const kondisi = document.getElementById('kondisi-air').value;
+    const hasilBox = document.getElementById('hasil-kalkulator');
+    const pesanError = document.getElementById('pesan-error');
+    const berat = Number(beratInput.value);
+
+    pesanError.classList.add('hidden');
+    hasilBox.classList.add('hidden');
+
+    if (!Number.isFinite(berat) || berat <= 0 || berat > 100000) {
+        pesanError.textContent = 'Masukkan berat umpan lebih dari 0 gram dan maksimal 100.000 gram.';
+        pesanError.classList.remove('hidden');
+        beratInput.focus();
+        return;
+    }
+
+    let baseWangi = 3;
+    let baseAmis = 2;
+    if (kondisi === 'keruh') {
+        baseWangi = 2;
+        baseAmis = 5;
+    } else if (kondisi === 'dingin') {
+        baseWangi = 6;
+        baseAmis = 2;
+    }
+
+    document.getElementById('res-wangi').textContent = Math.round((berat / 100) * baseWangi);
+    document.getElementById('res-amis').textContent = Math.round((berat / 100) * baseAmis);
+    hasilBox.classList.remove('hidden');
 }
-let baseWangi = 3;
-let baseAmis = 2;
-if (kondisi === 'keruh') {
-baseWangi = 2;
-baseAmis = 5;
-} else if (kondisi === 'dingin') {
-baseWangi = 6;
-baseAmis = 2;
-}
-const totalWangi = Math.round((berat / 100) * baseWangi);
-const totalAmis = Math.round((berat / 100) * baseAmis);
-const resWangi = document.getElementById('res-wangi');
-const resAmis = document.getElementById('res-amis');
-const hasilBox = document.getElementById('hasil-kalkulator');
-if (resWangi && resAmis && hasilBox) {
-resWangi.innerText = totalWangi;
-resAmis.innerText = totalAmis;
-hasilBox.classList.remove('hidden');
-}
-}
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('jenis-pancing').addEventListener('change', tampilkanResep);
+    document.getElementById('jenis-umpan').addEventListener('change', tampilkanResep);
+
+    const beratInput = document.getElementById('berat-umpan');
+    const kondisiInput = document.getElementById('kondisi-air');
+
+    beratInput.addEventListener('input', function () {
+        if (!document.getElementById('hasil-kalkulator').classList.contains('hidden')) hitungEssen();
+    });
+    kondisiInput.addEventListener('change', function () {
+        if (!document.getElementById('hasil-kalkulator').classList.contains('hidden')) hitungEssen();
+    });
+
+    tampilkanResep();
+});
 </script>
+</body>
+</html>

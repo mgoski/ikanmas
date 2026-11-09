@@ -2,21 +2,24 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Master Umpan Mas - Open Source</title>
-    <!-- Menggunakan Tailwind CSS untuk UI modern dan responsif -->
+    
+    <!-- Perbaikan Stabilitas: Menggunakan Tailwind CSS versi 3 Stable untuk mencegah overclose/crash di WebView Android lama -->
     <script src="https://jsdelivr.net"></script>
-    <link rel="stylesheet" href="https://cloudflare.com">
+    
+    <!-- Perbaikan Efisiensi: Memuat ikon FontAwesome secara asinkron untuk menghemat beban RAM saat aplikasi startup -->
+    <link rel="stylesheet" href="https://cloudflare.com" media="print" onload="this.media='all'">
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
+<body class="bg-gray-100 font-sans text-gray-800 antialiased select-none">
 
     <!-- Header -->
-    <header class="bg-gradient-to-r header bg-emerald-600 to-teal-700 text-white shadow-md sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-md sticky top-0 z-50">
         <div class="max-w-md mx-auto px-4 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold flex items-center gap-2">
                 <i class="fas fa-fish"></i> Master Umpan Mas
             </h1>
-            <span class="text-xs bg-emerald-800 px-2 py-1 rounded-full border border-emerald-500">v1.0.0-beta</span>
+            <span class="text-xs bg-emerald-800 px-2 py-1 rounded-full border border-emerald-500 font-mono">v1.0.1-stable</span>
         </div>
     </header>
 
@@ -24,11 +27,11 @@
     <main class="max-w-md mx-auto p-4 pb-24">
         
         <!-- Tab Fitur -->
-        <div class="bg-white rounded-2xl p-2 shadow-xs flex gap-2 mb-6">
-            <button onclick="switchTab('resep')" id="btn-resep" class="w-1/2 py-3 rounded-xl font-semibold text-center transition-all bg-emerald-600 text-white shadow-xs">
+        <div class="bg-white rounded-2xl p-2 shadow-sm flex gap-2 mb-6">
+            <button onclick="switchTab('resep')" id="btn-resep" class="w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 bg-emerald-600 text-white shadow-sm">
                 <i class="fas fa-book-open mr-1"></i> Resep Umpan
             </button>
-            <button onclick="switchTab('kalkulator')" id="btn-kalkulator" class="w-1/2 py-3 rounded-xl font-semibold text-center transition-all text-gray-500 hover:bg-gray-50">
+            <button onclick="switchTab('kalkulator')" id="btn-kalkulator" class="w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 text-gray-500 hover:bg-gray-50">
                 <i class="fas fa-calculator mr-1"></i> Hitung Essen
             </button>
         </div>
@@ -38,7 +41,7 @@
             <h2 class="text-lg font-bold text-gray-700 mb-2 px-1">Rekomendasi Racikan Ampuh</h2>
             
             <!-- Card Umpan Putih -->
-            <div class="bg-white rounded-2xl p-5 shadow-xs border border-gray-100">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                 <div class="flex justify-between items-start mb-3">
                     <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">Umpan Putih Harian</span>
                     <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 20 Menit</span>
@@ -58,7 +61,7 @@
             </div>
 
             <!-- Card Umpan Galatama -->
-            <div class="bg-white rounded-2xl p-5 shadow-xs border border-gray-100">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
                 <div class="flex justify-between items-start mb-3">
                     <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">Galatama Cendil</span>
                     <span class="text-xs text-gray-400"><i class="far fa-clock mr-1"></i> 15 Menit</span>
@@ -78,7 +81,7 @@
         </section>
 
         <!-- ================= TAB 2: KALKULATOR ESSEN ================= -->
-        <section id="tab-kalkulator" class="hidden bg-white rounded-2xl p-6 shadow-xs border border-gray-100">
+        <section id="tab-kalkulator" class="hidden bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <h2 class="text-lg font-bold text-gray-800 mb-2">Kalkulator Tetes Essen</h2>
             <p class="text-xs text-gray-500 mb-5">Hitung takaran tetes essen secara presisi berdasarkan volume atau berat umpan dasar Anda.</p>
             
@@ -86,13 +89,13 @@
                 <!-- Input Berat Umpan -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Berat Umpan Dasar (Gram)</label>
-                    <input type="number" id="berat-umpan" value="100" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    <input type="number" id="berat-umpan" value="100" min="1" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                 </div>
 
                 <!-- Input Tingkat Aroma -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Kondisi Air / Cuaca</label>
-                    <select id="kondisi-air" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                    <select id="kondisi-air" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
                         <option value="normal">Air Normal / Cerah (Standar)</option>
                         <option value="keruh">Air Keruh / Cokelat (Amis Kuat)</option>
                         <option value="dingin">Malam Hari / Hujan (Wangi Kuat)</option>
@@ -100,7 +103,7 @@
                 </div>
 
                 <!-- Tombol Hitung -->
-                <button onclick="hitungEssen()" class="w-full mt-2 bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition shadow-xs cursor-pointer">
+                <button onclick="hitungEssen()" class="w-full mt-2 bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition duration-200 shadow-sm cursor-pointer">
                     <i class="fas fa-cogs mr-1"></i> Hitung Formula
                 </button>
 
@@ -108,11 +111,11 @@
                 <div id="hasil-kalkulator" class="hidden mt-6 bg-emerald-50 rounded-2xl p-4 border border-emerald-100">
                     <h3 class="text-sm font-bold text-emerald-800 uppercase tracking-wider mb-3"><i class="fas fa-flask mr-1"></i> Rekomendasi Takaran:</h3>
                     <div class="grid grid-cols-2 gap-3 text-center">
-                        <div class="bg-white p-3 rounded-xl shadow-xs border border-emerald-100">
+                        <div class="bg-white p-3 rounded-xl shadow-sm border border-emerald-100">
                             <span class="block text-2xl font-black text-emerald-600" id="res-wangi">0</span>
                             <span class="text-xs text-gray-500 font-medium">Tetes Essen Wangi</span>
                         </div>
-                        <div class="bg-white p-3 rounded-xl shadow-xs border border-emerald-100">
+                        <div class="bg-white p-3 rounded-xl shadow-sm border border-emerald-100">
                             <span class="block text-2xl font-black text-amber-600" id="res-amis">0</span>
                             <span class="text-xs text-gray-500 font-medium">Tetes Essen Amis</span>
                         </div>
@@ -126,29 +129,64 @@
 
     </main>
 
-    <!-- Footer Keterangan Open Source -->
+    <!-- Footer -->
     <footer class="max-w-md mx-auto text-center text-xs text-gray-400 py-6 border-t border-gray-200 px-4">
         <p>Aplikasi ini bersifat <strong>Open Source (MIT License)</strong>.</p>
         <p class="mt-1">Dibuat untuk komunitas pemancing ikan mas Indonesia.</p>
     </footer>
 
-    <!-- Logic JavaScript -->
+    <!-- Logic JavaScript Perbaikan -->
     <script>
-        // Logika Perpindahan Tab Menu
+        // Menggunakan penanganan variabel lokal dalam fungsi untuk mencegah kebocoran memori (Memory Leak)
         function switchTab(tabName) {
             const tabResep = document.getElementById('tab-resep');
             const tabKalkulator = document.getElementById('tab-kalkulator');
             const btnResep = document.getElementById('btn-resep');
             const btnKalkulator = document.getElementById('btn-kalkulator');
 
+            if (!tabResep || !tabKalkulator || !btnResep || !btnKalkulator) return;
+
             if (tabName === 'resep') {
                 tabResep.classList.remove('hidden');
                 tabKalkulator.classList.add('hidden');
                 
-                btnResep.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all bg-emerald-600 text-white shadow-xs";
-                btnKalkulator.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all text-gray-500 hover:bg-gray-50";
-            } else {
-                tabResep.classList.add('hidden');
-                tabKalkulator.classList.remove('hidden');
-                
-                btnResep.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all text-gray-500 hover:bg-gray-50";
+btnResep.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 bg-emerald-600 text-white shadow-sm";
+btnKalkulator.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 text-gray-500 hover:bg-gray-50";
+} else {
+tabResep.classList.add('hidden');
+tabKalkulator.classList.remove('hidden');
+btnResep.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 text-gray-500 hover:bg-gray-50";
+btnKalkulator.className = "w-1/2 py-3 rounded-xl font-semibold text-center transition-all duration-200 bg-emerald-600 text-white shadow-sm";
+}
+}
+function hitungEssen() {
+const beratInput = document.getElementById('berat-umpan');
+const kondisiInput = document.getElementById('kondisi-air');
+if (!beratInput || !kondisiInput) return;
+const berat = parseFloat(beratInput.value);
+const kondisi = kondisiInput.value;
+if (isNaN(berat) || berat <= 0) {
+alert('Silakan masukkan berat umpan dasar yang valid!');
+return;
+}
+let baseWangi = 3;
+let baseAmis = 2;
+if (kondisi === 'keruh') {
+baseWangi = 2;
+baseAmis = 5;
+} else if (kondisi === 'dingin') {
+baseWangi = 6;
+baseAmis = 2;
+}
+const totalWangi = Math.round((berat / 100) * baseWangi);
+const totalAmis = Math.round((berat / 100) * baseAmis);
+const resWangi = document.getElementById('res-wangi');
+const resAmis = document.getElementById('res-amis');
+const hasilBox = document.getElementById('hasil-kalkulator');
+if (resWangi && resAmis && hasilBox) {
+resWangi.innerText = totalWangi;
+resAmis.innerText = totalAmis;
+hasilBox.classList.remove('hidden');
+}
+}
+</script>
